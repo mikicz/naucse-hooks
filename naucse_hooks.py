@@ -126,7 +126,7 @@ def trigger_build(repo, branch):
             build.cancel()
 
     # unfortunately, TravisPy doesn't provide a method to trigger a build, so triggering manually:
-    requests.post(
+    response = requests.post(
         "https://api.travis-ci.org/repo/{}/requests".format(
             urllib.parse.quote_plus(app.config["TRAVIS_REPO_SLUG"])
         ),
@@ -141,6 +141,8 @@ def trigger_build(repo, branch):
             "Travis-API-Version": "3"
         }
     )
+    app.logger.info("Triggering a build succeeded with status code %s, content %s",
+                    response.status_code, response.content)
 
 
 def get_branch_from_ref(ref: str) -> Optional[str]:
