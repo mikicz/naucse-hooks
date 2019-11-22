@@ -2,6 +2,7 @@ import logging.handlers
 import re
 import urllib.parse
 from collections import defaultdict
+from datetime import datetime
 from pathlib import Path
 from typing import Iterator, Dict, Optional
 
@@ -181,7 +182,8 @@ def index(all=False):
     return render_template("index.html",
                            logged_in=access_token is not None,
                            repos=repos,
-                           all=all)
+                           all=all,
+                           current_year=str(datetime.now().year))
 
 
 @app.route('/login')
